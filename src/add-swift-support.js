@@ -132,7 +132,7 @@ module.exports = context => {
             }
 
             let searchPath = getBuildProperty('LD_RUNPATH_SEARCH_PATHS', buildConfig);
-            if (typeof searchPath === "undefined") {
+            if (typeof searchPath === 'undefined') {
               updateBuildProperty('LD_RUNPATH_SEARCH_PATHS', '"@executable_path/Frameworks"', buildConfig);
               console.log('Update IOS build setting LD_RUNPATH_SEARCH_PATHS to: @executable_path/Frameworks', 'for build configuration', buildConfig.name);
             } else if (searchPath.indexOf('@executable_path/Frameworks') < 0) {
@@ -171,7 +171,7 @@ module.exports = context => {
 };
 
 const getBuildProperty = (propName, buildConfig) => {
-  if (typeof buildConfig.buildSettings !== "undefined") {
+  if (typeof buildConfig.buildSettings !== 'undefined') {
     return buildConfig.buildSettings[propName];
   }
 
@@ -179,7 +179,7 @@ const getBuildProperty = (propName, buildConfig) => {
 };
 
 const updateBuildProperty = (propName, propValue, buildConfig) => {
-  if (typeof buildConfig.buildSettings !== "undefined") {
+  if (typeof buildConfig.buildSettings !== 'undefined') {
     buildConfig.buildSettings[propName] = propValue;
   }
 };
