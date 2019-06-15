@@ -86,12 +86,23 @@ module.exports = context => {
 
       const bridgingHeaderProperty = '"$(PROJECT_DIR)/$(PROJECT_NAME)' + bridgingHeaderPath.split(projectPath)[1] + '"';
 
+      let swiftOnlyTargets = config.getPreference('SwiftOnlyTargets', 'ios') || [];
+      let swiftOnlyProducts = [];
+      if (swiftOnlyTargets) {
+        swiftOnlyProducts = swiftOnlyTargets.split(',').map((i) => '"' + i + '"'); // product names are quoted
+      }
+
       for (configName in buildConfigs) {
         if (!COMMENT_KEY.test(configName)) {
           buildConfig = buildConfigs[configName];
-          if (xcodeProject.getBuildProperty('SWIFT_OBJC_BRIDGING_HEADER', buildConfig.name) !== bridgingHeaderProperty) {
-            xcodeProject.updateBuildProperty('SWIFT_OBJC_BRIDGING_HEADER', bridgingHeaderProperty, buildConfig.name);
-            console.log('Update IOS build setting SWIFT_OBJC_BRIDGING_HEADER to:', bridgingHeaderProperty, 'for build configuration', buildConfig.name);
+          if (getBuildProperty('SWIFT_OBJC_BRIDGING_HEADER', buildConfig) !== bridgingHeaderProperty) {
+            let productName = getBuildProperty('PRODUCT_NAME', buildConfig);
+            if (productName && swiftOnlyProducts.includes(productName)) {
+              console.log('Will not set SWIFT_OBJC_BRIDGING_HEADER for', productName);
+            } else {
+              updateBuildProperty('SWIFT_OBJC_BRIDGING_HEADER', bridgingHeaderProperty, buildConfig);
+              console.log('Update IOS build setting SWIFT_OBJC_BRIDGING_HEADER to:', bridgingHeaderProperty, 'for build configuration', buildConfig.name);
+            }
           }
         }
       }
