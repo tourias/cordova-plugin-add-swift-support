@@ -22,8 +22,8 @@ const childProcess = require('child_process');
 const semver = require('semver');
 const glob = require('glob');
 
-  module.exports = context => {
-    return new Promise(resolve => {
+module.exports = context => {
+  return new Promise(resolve => {
     const projectRoot = context.opts.projectRoot;
 
     // This script has to be executed depending on the command line arguments, not
