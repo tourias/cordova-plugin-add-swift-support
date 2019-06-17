@@ -86,7 +86,7 @@ module.exports = context => {
 
       const bridgingHeaderProperty = '"$(PROJECT_DIR)/$(PROJECT_NAME)' + bridgingHeaderPath.split(projectPath)[1] + '"';
 
-      let swiftOnlyTargets = config.getPreference('SwiftOnlyTargets', 'ios') || [];
+      let swiftOnlyTargets = config.getPreference('SwiftOnlyTargets', 'ios');
       let swiftOnlyProducts = [];
       if (swiftOnlyTargets) {
         swiftOnlyProducts = swiftOnlyTargets.split(',').map((i) => '"' + i + '"'); // product names are quoted
